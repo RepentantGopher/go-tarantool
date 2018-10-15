@@ -428,20 +428,16 @@ func (fut *Future) Get() (*Response, error) {
 // It is could be much faster than Get() function.
 //
 // Note: Tarantool usually returns array of tuples (except for Eval and Call17 actions)
-func (fut *Future) GetTyped(result interface{}) error {
+func (fut *Future) GetTyped(result interface{}) (*Response, error) {
 	fut.wait()
 	if fut.err != nil {
-		return fut.err
+		return fut.resp, fut.err
 	}
 	fut.err = fut.resp.decodeBodyTypedWithDecoder(fut.decoderFactory, result)
-	return fut.err
+	return fut.resp, fut.err
 }
 
 func (fut *Future) WithDecoderFactory(factory DecoderFactory) *Future {
 	fut.decoderFactory = factory
 	return fut
-}
-
-func (fut *Future) GetResponse() *Response {
-	return fut.resp
 }
