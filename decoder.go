@@ -3,7 +3,7 @@ package tarantool
 import (
 	"io"
 
-	"gopkg.in/vmihailenco/msgpack.v4"
+	"gopkg.in/vmihailenco/msgpack.v2"
 )
 
 type DecoderFactory func(r io.Reader) *msgpack.Decoder
