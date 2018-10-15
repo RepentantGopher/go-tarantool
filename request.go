@@ -441,3 +441,7 @@ func (fut *Future) WithDecoderFactory(factory DecoderFactory) *Future {
 	fut.decoderFactory = factory
 	return fut
 }
+
+func (fut *Future) GetResponse() *Response {
+	return fut.resp
+}
