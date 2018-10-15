@@ -8,7 +8,7 @@ import (
 	"time"
 
 	. "github.com/tarantool/go-tarantool"
-	"gopkg.in/vmihailenco/msgpack.v4"
+	"gopkg.in/vmihailenco/msgpack.v2"
 )
 
 type Member struct {
@@ -26,7 +26,7 @@ type Tuple2 struct {
 func (m *Member) EncodeMsgpack(e *msgpack.Encoder) error {
 	e.EncodeArrayLen(2)
 	e.EncodeString(m.Name)
-	e.EncodeUint(uint64(m.Val))
+	e.EncodeUint(m.Val)
 	return nil
 }
 
@@ -50,7 +50,7 @@ func (m *Member) DecodeMsgpack(d *msgpack.Decoder) error {
 
 func (c *Tuple2) EncodeMsgpack(e *msgpack.Encoder) error {
 	e.EncodeArrayLen(3)
-	e.EncodeUint(uint64(c.Cid))
+	e.EncodeUint(c.Cid)
 	e.EncodeString(c.Orig)
 	e.Encode(c.Members)
 	return nil
