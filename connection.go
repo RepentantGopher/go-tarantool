@@ -5,7 +5,6 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"gopkg.in/vmihailenco/msgpack.v2"
 	"io"
 	"log"
 	"net"
@@ -13,6 +12,8 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+
+	"gopkg.in/vmihailenco/msgpack.v4"
 )
 
 const requestsMap = 128
@@ -647,7 +648,9 @@ func (conn *Connection) reader(r *bufio.Reader, c net.Conn) {
 }
 
 func (conn *Connection) newFuture(requestCode int32) (fut *Future) {
-	fut = &Future{}
+	fut = &Future{
+		decoderFactory: DefaultDecoder,
+	}
 	if conn.rlimit != nil && conn.opts.RLimitAction == RLimitDrop {
 		select {
 		case conn.rlimit <- struct{}{}:
