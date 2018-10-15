@@ -148,7 +148,7 @@ func (s *single) DecodeMsgpack(d *msgpack.Decoder) error {
 // It is equal to conn.SelectAsync(space, index, 0, 1, IterEq, key).GetTyped(&result)
 func (conn *Connection) GetTyped(space, index interface{}, key interface{}, result interface{}) (err error) {
 	s := single{res: result}
-	err = conn.SelectAsync(space, index, 0, 1, IterEq, key).GetTyped(&s)
+	_, err = conn.SelectAsync(space, index, 0, 1, IterEq, key).GetTyped(&s)
 	return
 }
 
@@ -156,7 +156,8 @@ func (conn *Connection) GetTyped(space, index interface{}, key interface{}, resu
 //
 // It is equal to conn.SelectAsync(space, index, offset, limit, iterator, key).GetTyped(&result)
 func (conn *Connection) SelectTyped(space, index interface{}, offset, limit, iterator uint32, key interface{}, result interface{}) (err error) {
-	return conn.SelectAsync(space, index, offset, limit, iterator, key).GetTyped(result)
+	_, err = conn.SelectAsync(space, index, offset, limit, iterator, key).GetTyped(result)
+	return
 }
 
 // InsertTyped performs insertion to box space.
@@ -164,7 +165,8 @@ func (conn *Connection) SelectTyped(space, index interface{}, offset, limit, ite
 //
 // It is equal to conn.InsertAsync(space, tuple).GetTyped(&result).
 func (conn *Connection) InsertTyped(space interface{}, tuple interface{}, result interface{}) (err error) {
-	return conn.InsertAsync(space, tuple).GetTyped(result)
+	_, err = conn.InsertAsync(space, tuple).GetTyped(result)
+	return
 }
 
 // ReplaceTyped performs "insert or replace" action to box space.
@@ -172,21 +174,24 @@ func (conn *Connection) InsertTyped(space interface{}, tuple interface{}, result
 //
 // It is equal to conn.ReplaceAsync(space, tuple).GetTyped(&result).
 func (conn *Connection) ReplaceTyped(space interface{}, tuple interface{}, result interface{}) (err error) {
-	return conn.ReplaceAsync(space, tuple).GetTyped(result)
+	_, err = conn.ReplaceAsync(space, tuple).GetTyped(result)
+	return
 }
 
 // DeleteTyped performs deletion of a tuple by key and fills result with deleted tuple.
 //
 // It is equal to conn.DeleteAsync(space, tuple).GetTyped(&result).
 func (conn *Connection) DeleteTyped(space, index interface{}, key interface{}, result interface{}) (err error) {
-	return conn.DeleteAsync(space, index, key).GetTyped(result)
+	_, err = conn.DeleteAsync(space, index, key).GetTyped(result)
+	return
 }
 
 // UpdateTyped performs update of a tuple by key and fills result with updated tuple.
 //
 // It is equal to conn.UpdateAsync(space, tuple, ops).GetTyped(&result).
 func (conn *Connection) UpdateTyped(space, index interface{}, key, ops interface{}, result interface{}) (err error) {
-	return conn.UpdateAsync(space, index, key, ops).GetTyped(result)
+	_, err = conn.UpdateAsync(space, index, key, ops).GetTyped(result)
+	return
 }
 
 // CallTyped calls registered function.
@@ -194,7 +199,8 @@ func (conn *Connection) UpdateTyped(space, index interface{}, key, ops interface
 //
 // It is equal to conn.CallAsync(functionName, args).GetTyped(&result).
 func (conn *Connection) CallTyped(functionName string, args interface{}, result interface{}) (err error) {
-	return conn.CallAsync(functionName, args).GetTyped(result)
+	_, err = conn.CallAsync(functionName, args).GetTyped(result)
+	return
 }
 
 // Call17Typed calls registered function.
@@ -203,14 +209,16 @@ func (conn *Connection) CallTyped(functionName string, args interface{}, result 
 //
 // It is equal to conn.Call17Async(functionName, args).GetTyped(&result).
 func (conn *Connection) Call17Typed(functionName string, args interface{}, result interface{}) (err error) {
-	return conn.Call17Async(functionName, args).GetTyped(result)
+	_, err = conn.Call17Async(functionName, args).GetTyped(result)
+	return
 }
 
 // EvalTyped passes lua expression for evaluation.
 //
 // It is equal to conn.EvalAsync(space, tuple).GetTyped(&result).
 func (conn *Connection) EvalTyped(expr string, args interface{}, result interface{}) (err error) {
-	return conn.EvalAsync(expr, args).GetTyped(result)
+	_, err = conn.EvalAsync(expr, args).GetTyped(result)
+	return
 }
 
 // SelectAsync sends select request to tarantool and returns Future.
